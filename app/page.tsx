@@ -1877,7 +1877,7 @@ const TreasureHunt = () => {
             className="nav-button right"
             aria-label="Next section"
           >
-            <ArrowRight size={24} />
+            <ArrowRight size={10} />
           </button>
         )}
     </div>
