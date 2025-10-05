@@ -1859,20 +1859,7 @@ const TreasureHunt = () => {
       {/* Section Rendering */}
       <div className="sections-wrapper">{sections[currentSection].content}</div>
       {/* Progress Indicator */}
-      <div className="progress-indicator">
-        <MapPin className="progress-icon" size={20} />
-        <span className="progress-text">
-          {currentSection + 1} / {sections.length}
-        </span>
-        <div className="progress-bar-container">
-          <div
-            className="progress-bar"
-            style={{
-              width: `${((currentSection + 1) / sections.length) * 100}%`,
-            }}
-          />
-        </div>
-      </div>
+
       {/* Navigation Buttons */}
       {currentSection > 0 && (
         <button
@@ -1880,7 +1867,7 @@ const TreasureHunt = () => {
           className="nav-button left"
           aria-label="Previous section"
         >
-          <ArrowLeft size={24} />
+          <ArrowLeft size={10} />
         </button>
       )}
       {currentSection < sections.length - 1 &&
