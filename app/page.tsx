@@ -1,3 +1,4 @@
+// MultipleFiles/page.tsx
 "use client";
 
 import React, { useState, useRef } from "react";
@@ -23,38 +24,35 @@ import {
   Plane,
 } from "lucide-react";
 import PhotoMemorySection from "@/components/PhotoMemorySection";
+import BeachMemory from "@/components/BeachMemory"; // Import the new component
+import SpecialPlacesMemory from "@/components/SpecialPlacesMemory"; // Import the new component
 import { toast, Toaster } from "react-hot-toast"; // Import react-hot-toast
 
 const TreasureHunt = () => {
-
-
   const [currentSection, setCurrentSection] = useState(0);
-  const [unlockedSections, setUnlockedSections] = useState<boolean[]>(
-    [true, ...Array(14).fill(false)]
-  );
+  const [unlockedSections, setUnlockedSections] = useState<boolean[]>([
+    true,
+    ...Array(14).fill(false),
+  ]);
   const [puzzleSolved, setPuzzleSolved] = useState<Record<string, boolean>>({});
   const [userInput, setUserInput] = useState("");
-  // const [showProposal, setShowProposal] = useState(false);
-  // Removed inputError and showHint states as toast will handle these
-
   const [showProposal, setShowProposal] = useState(false);
-  const [noPosition, setNoPosition] = useState({ x: 0, y: 0 });  // NEW
-  const noButtonRef = useRef(null);  // NEW
+  const [noPosition, setNoPosition] = useState({ x: 0, y: 0 }); // NEW
+  const noButtonRef = useRef(null); // NEW
 
-  interface Position {
-    x: number;
-    y: number;
-  }
-
-
+  // Removed unused interface Position
+  // interface Position {
+  //   x: number;
+  //   y: number;
+  // }
 
   const handleNoDance = () => {
     if (noButtonRef.current) {
       const maxX = 100;
       const maxY = 500;
       setNoPosition({
-        x: Math.random() * maxX - maxX / 2,  // Number
-        y: Math.random() * maxY - maxY / 2,  // Number
+        x: Math.random() * maxX - maxX / 2, // Number
+        y: Math.random() * maxY - maxY / 2, // Number
       });
     }
   };
@@ -74,20 +72,20 @@ const TreasureHunt = () => {
         return newUnlocked;
       });
       setUserInput("");
-      toast.success("Correct! You're a genius bangaram! 🎉", {
-        icon: '🥳',
+      toast.success("Correct! You are a genius bangaram! 🎉", {
+        icon: "🥳",
         style: {
-          background: '#22c55e',
-          color: '#fff',
+          background: "#22c55e",
+          color: "#fff",
         },
       });
       setTimeout(() => setCurrentSection(nextSection), 500);
     } else {
-      toast.error("Oops! That's not quite right. Try again, my love! 🤔", {
-        icon: '😅',
+      toast.error("Oops! That not quite right. Try again, my love! 🤔", {
+        icon: "😅",
         style: {
-          background: '#ef4444',
-          color: '#fff',
+          background: "#ef4444",
+          color: "#fff",
         },
       });
     }
@@ -95,10 +93,10 @@ const TreasureHunt = () => {
 
   const handleShowHint = (hintText: string) => {
     toast(hintText, {
-      icon: '💡',
+      icon: "💡",
       style: {
-        background: '#fbbf24',
-        color: '#000',
+        background: "#fbbf24",
+        color: "#000",
       },
     });
   };
@@ -114,14 +112,26 @@ const TreasureHunt = () => {
       return newUnlocked;
     });
     toast.success("YES! My heart just did a happy dance! 💖", {
-      icon: '💍',
+      icon: "💍",
       duration: 3000,
       style: {
-        background: '#ec4899',
-        color: '#fff',
+        background: "#ec4899",
+        color: "#fff",
       },
     });
     setTimeout(() => setCurrentSection(nextSection), 2000);
+  };
+
+  // Handler for the new components to update state in the parent
+  const handleComponentSolve = (nextSectionIndex: number) => {
+    setUnlockedSections((prev) => {
+      const newUnlocked = [...prev];
+      if (nextSectionIndex < sections.length) {
+        newUnlocked[nextSectionIndex] = true;
+      }
+      return newUnlocked;
+    });
+    setCurrentSection(nextSectionIndex);
   };
 
   const sections = [
@@ -139,9 +149,10 @@ const TreasureHunt = () => {
             <h1 className="main-title">Hello Nana</h1>
 
             <div className="text-content">
-              <p className="subtitle">It's me, your Pandhi.</p>
+              <p className="subtitle">It is me, your Pandhi.</p>
               <p className="description">
-                Today, I will take you on a special journey through our memories and dreams.
+                Today, I will take you on a special journey through our memories
+                and dreams.
               </p>
               <p className="description">
                 Every step brings you closer to my heart.
@@ -179,17 +190,45 @@ const TreasureHunt = () => {
             <div className="memory-grid">
               {[
                 { icon: Mountain, label: "Movie Time", unlocked: true },
-                { icon: Waves, label: "Night Walk", unlocked: puzzleSolved["mountains"] || false },
-                { icon: Coffee, label: "Coffee Talks", unlocked: puzzleSolved["beach"] || false },
-                { icon: Star, label: "Starry Nights", unlocked: puzzleSolved["coffee"] || false },
-                { icon: Music, label: "Our Song", unlocked: puzzleSolved["starry"] || false },
-                { icon: Camera, label: "Photo Memories", unlocked: puzzleSolved["song"] || false },
-                { icon: Heart, label: "Special Places", unlocked: puzzleSolved["photo"] || false },
-                { icon: Sparkles, label: "The Question", unlocked: puzzleSolved["places"] || false },
+                {
+                  icon: Waves,
+                  label: "Night Walk",
+                  unlocked: puzzleSolved["mountains"] || false,
+                },
+                {
+                  icon: Coffee,
+                  label: "Coffee Talks",
+                  unlocked: puzzleSolved["beach"] || false,
+                },
+                {
+                  icon: Star,
+                  label: "Starry Nights",
+                  unlocked: puzzleSolved["coffee"] || false,
+                },
+                {
+                  icon: Music,
+                  label: "Our Song",
+                  unlocked: puzzleSolved["starry"] || false,
+                },
+                {
+                  icon: Camera,
+                  label: "Photo Memories",
+                  unlocked: puzzleSolved["song"] || false,
+                },
+                {
+                  icon: Heart,
+                  label: "Special Places",
+                  unlocked: puzzleSolved["photo"] || false,
+                },
+                {
+                  icon: Sparkles,
+                  label: "The Question",
+                  unlocked: puzzleSolved["places"] || false,
+                },
               ].map((region, idx) => (
                 <div
                   key={idx}
-                  className={`memory-card ${region.unlocked ? 'unlocked' : 'locked'}`}
+                  className={`memory-card ${region.unlocked ? "unlocked" : "locked"}`}
                 >
                   <region.icon className="memory-icon" size={40} />
                   <p className="memory-label">{region.label}</p>
@@ -207,7 +246,7 @@ const TreasureHunt = () => {
             <button
               onClick={() => setCurrentSection(2)}
               className="primary-button"
-              style={{ marginTop: '2rem' }}
+              style={{ marginTop: "2rem" }}
             >
               <span>Start Adventure</span>
               <ArrowRight size={20} />
@@ -231,19 +270,20 @@ const TreasureHunt = () => {
             <h2 className="section-title">Bangalore Meet</h2>
 
             <div className="quote-box">
-              <p className="quote-text">
-                "Love climbs higher than any peak."
-              </p>
+              <p className="quote-text">Love climbs higher than any peak.</p>
             </div>
 
             <div className="text-content">
               <p className="description">
-                Remember our first movie meet-out?<br /> Being together for the first time.
+                Remember our first movie meet-out?<br /> Being together for the
+                first time.
               </p>
             </div>
 
             <div className="puzzle-container">
-              <p className="puzzle-label">Color of the dress I wore on that day ?</p>
+              <p className="puzzle-label">
+                Color of the dress I wore on that day ?
+              </p>
               <div className="puzzle-text"></div>
 
               <input
@@ -275,156 +315,11 @@ const TreasureHunt = () => {
       ),
     },
 
-    // 3 - Beach
+    // 3 - Beach (Now using the new component)
     {
       id: "beach",
       title: "Beach Memory",
-      content: (() => {
-        const [answer1, setAnswer1] = useState("");
-        const [answer2, setAnswer2] = useState("");
-        const [solved1, setSolved1] = useState(false);
-        const [solved2, setSolved2] = useState(false);
-        const [showHint1, setShowHint1] = useState(false);
-        const [showHint2, setShowHint2] = useState(false);
-
-        const handleFirstAnswer = () => {
-          if (answer1.trim().toUpperCase() === "LOVE") {
-            setSolved1(true);
-          } else {
-            alert("Try again 😅");
-          }
-        };
-
-        const handleSecondAnswer = () => {
-          if (answer2.trim().toUpperCase() === "FUTURE") {
-            setSolved2(true);
-          } else {
-            alert("Close, but think of what we spoke about the most 💭");
-          }
-        };
-
-        return (
-          <div className="section-container">
-            <div className="content-card">
-              <div className="icon-wrapper">
-                <Waves className="section-icon" size={64} />
-              </div>
-
-              <h2 className="section-title">Night Walk</h2>
-
-              <div className="text-content">
-                <p className="description">
-                  The streets shimmered under soft yellow lights, cafes still humming,
-                  and the cool Bengaluru breeze wrapped around us.
-                  Every step felt lighter — laughter echoing through Nagavara Road,
-                  time slowing just for us.
-                </p>
-              </div>
-
-              {/* --- Question 1 --- */}
-              <div className="puzzle-container">
-                <p className="puzzle-label">Riddle 1:</p>
-                <div className="riddle-box">
-                  <p className="riddle-text">
-                    “It grows when shared, speaks without words,
-                    and turns ordinary moments into memories. What is it?”
-                  </p>
-                </div>
-
-                <input
-                  type="text"
-                  value={answer1}
-                  onChange={(e) => setAnswer1(e.target.value)}
-                  className="puzzle-input"
-                  placeholder="Enter your answer"
-                  disabled={solved1}
-                />
-
-                <div className="button-group">
-                  <button
-                    onClick={handleFirstAnswer}
-                    className="primary-button"
-                    disabled={solved1}
-                  >
-                    {solved1 ? "✅ Correct!" : "Submit Answer"}
-                  </button>
-                  <button
-                    onClick={() => setShowHint1(!showHint1)}
-                    className="hint-button"
-                  >
-                    {showHint1 ? "Hide Hint" : "Need a Hint?"}
-                  </button>
-                </div>
-                {showHint1 && (
-                  <p className="hint-text mt-2">Hint: The answer has 4 letters ❤️</p>
-                )}
-              </div>
-
-              {/* --- Question 2 --- */}
-              {solved1 && (
-                <div className="puzzle-container mt-8 animate-fadeIn">
-                  <p className="puzzle-label">Riddle 2:</p>
-                  <div className="riddle-box">
-                    <p className="riddle-text">
-                      “During our late-night walk, what did we talk about the most?”
-                    </p>
-                  </div>
-
-                  <input
-                    type="text"
-                    value={answer2}
-                    onChange={(e) => setAnswer2(e.target.value)}
-                    className="puzzle-input"
-                    placeholder="Enter your answer"
-                    disabled={solved2}
-                  />
-
-                  <div className="button-group">
-                    <button
-                      onClick={handleSecondAnswer}
-                      className="primary-button"
-                      disabled={solved2}
-                    >
-                      {solved2 ? "✅ Correct!" : "Submit Answer"}
-                    </button>
-                    <button
-                      onClick={() => setShowHint2(!showHint2)}
-                      className="hint-button"
-                    >
-                      {showHint2 ? "Hide Hint" : "Need a Hint?"}
-                    </button>
-                  </div>
-                  {showHint2 && (
-                    <p className="hint-text mt-2">
-                      Hint: We spoke about our dreams and plans 💭
-                    </p>
-                  )}
-                </div>
-              )}
-
-              {/* --- Continue Button --- */}
-              {solved1 && solved2 && (
-                <div className="flex justify-center mt-10 animate-fadeIn">
-                  <button
-                    onClick={() => {
-                      setUnlockedSections((prev) => {
-                        const newUnlocked = [...prev];
-                        newUnlocked[6] = true; // 👉 unlock next section index
-                        return newUnlocked;
-                      });
-                      setCurrentSection(6);
-                    }}
-                    className="primary-button flex items-center gap-2"
-                  >
-                    <span>Continue Our Story</span>
-                    <ArrowRight size={20} />
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        );
-      })(),
+      content: <BeachMemory onSolve={handleComponentSolve} />,
     },
     // 4 - Coffee Talks
     {
@@ -441,13 +336,15 @@ const TreasureHunt = () => {
 
             <div className="text-content">
               <p className="description">
-                It started as a normal evening — laughter, stories, and having some coffee.
-                Then came that tiny chaos: accidentally one of our friend spilled accidentally cofee on you
-                I rushed to the medical store, found nothing fancy, but came back with a small bottle of honey.
+                It started as a normal evening — laughter, stories, and having
+                some coffee. Then came that tiny chaos: accidentally one of our
+                friend spilled accidentally cofee on you I rushed to the medical
+                store, found nothing fancy, but came back with a small bottle of
+                honey.
                 <br />
                 <br />
-                I said, trying to calm you,
-                That moment — a mix of worry, care and love — but your reaction made me speechless😑
+                I said, trying to calm you, That moment — a mix of worry, care
+                and love — but your reaction made me speechless😑
               </p>
             </div>
 
@@ -455,7 +352,8 @@ const TreasureHunt = () => {
               <p className="puzzle-label">Fill in the blank:</p>
               <div className="riddle-box">
                 <p className="riddle-text">
-                  “In that moment, love wasn’t about words — it was about a spoon of ______”
+                  “In that moment, love wasn’t about words — it was about a
+                  spoon of ______”
                 </p>
               </div>
 
@@ -503,13 +401,14 @@ const TreasureHunt = () => {
 
             <div className="quote-box">
               <p className="quote-text">
-                "Even among millions of stars, you're the brightest one I see."
+                Even among millions of stars, you are the brightest one I see.
               </p>
             </div>
 
             <div className="text-content">
               <p className="description">
-                Those nights we spent stargazing, dreaming about our future together.
+                Those nights we spent stargazing, dreaming about our future
+                together.
               </p>
             </div>
 
@@ -517,7 +416,7 @@ const TreasureHunt = () => {
               <p className="puzzle-label">Math puzzle:</p>
               <div className="riddle-box">
                 <p className="riddle-text">
-                  How many letters are in <br /> "FOREVER TOGETHER"?
+                  How many letters are in <br /> FOREVER TOGETHER?
                 </p>
               </div>
 
@@ -565,16 +464,15 @@ const TreasureHunt = () => {
 
             <div className="text-content">
               <p className="description">
-                Every time I hear it, I think of you. Music speaks what words cannot.
+                Every time I hear it, I think of you. Music speaks what words
+                cannot.
               </p>
             </div>
 
             <div className="puzzle-container">
               <p className="puzzle-label">Complete the phrase:</p>
               <div className="riddle-box">
-                <p className="riddle-text">
-                  "Nene neeku _____"
-                </p>
+                <p className="riddle-text">Nene neeku _____</p>
               </div>
 
               <input
@@ -593,11 +491,11 @@ const TreasureHunt = () => {
                     if (answer === "SONTHAM") {
                       const audio = new Audio("/music/nuvve_naa_lokam.mp3"); // ✅ put file in public/songs
                       audio.play();
-                      toast.success("That's our song! 🎶", {
-                        icon: '❤️',
+                      toast.success("That is our song! 🎶", {
+                        icon: "❤️",
                         style: {
-                          background: '#22c55e',
-                          color: '#fff',
+                          background: "#22c55e",
+                          color: "#fff",
                         },
                       });
                       // Wait for song duration (e.g., 12s) before going to next section
@@ -606,10 +504,10 @@ const TreasureHunt = () => {
                       }, 2000);
                     } else {
                       toast.error("Try again ra puppy ❤️", {
-                        icon: '🥺',
+                        icon: "🥺",
                         style: {
-                          background: '#ef4444',
-                          color: '#fff',
+                          background: "#ef4444",
+                          color: "#fff",
                         },
                       });
                     }
@@ -631,7 +529,6 @@ const TreasureHunt = () => {
         </div>
       ),
     },
-
 
     // 7 - Photo Memories
     {
@@ -661,238 +558,12 @@ const TreasureHunt = () => {
       ),
     },
 
-    // 8 - Special Places
+    // 8 - Special Places (Now using the new component)
     {
       id: "places",
       title: "Special Places",
-      content: (() => {
-        const [answer1, setAnswer1] = useState("");
-        const [answer2, setAnswer2] = useState("");
-        const [answer3, setAnswer3] = useState("");
-        const [solved1, setSolved1] = useState(false);
-        const [solved2, setSolved2] = useState(false);
-        const [solved3, setSolved3] = useState(false);
-        const [showHint1, setShowHint1] = useState(false);
-        const [showHint2, setShowHint2] = useState(false);
-        const [showHint3, setShowHint3] = useState(false);
-
-        const handleFirstAnswer = () => {
-          if (answer1.trim().toUpperCase() === "PLACE") {
-            setSolved1(true);
-            toast.success("Exactly! ❤️ Anywhere with you becomes my favorite PLACE!", {
-              icon: "📍",
-              style: { background: "#22c55e", color: "#fff" },
-            });
-          } else {
-            toast.error("Not that one! Think about the word in quotes 😉", {
-              icon: "🧐",
-              style: { background: "#ef4444", color: "#fff" },
-            });
-          }
-        };
-
-        const handleSecondAnswer = () => {
-          if (answer2.trim().toUpperCase() === "YOUR ARMS") {
-            setSolved2(true);
-            toast.success("Awww 🥹 Yes! My safest PLACE is YOUR ARMS 💞", {
-              icon: "🤗",
-              style: { background: "#22c55e", color: "#fff" },
-            });
-          } else {
-            toast.error("Hehe nope! Where do I always want to be when sad? 🫶", {
-              icon: "😝",
-              style: { background: "#ef4444", color: "#fff" },
-            });
-          }
-        };
-
-        const handleThirdAnswer = () => {
-          if (answer3.trim().toUpperCase() === "KITCHEN") {
-            setSolved3(true);
-            toast.success("Haha yesss 😋 The KITCHEN — where love (and food) happens!", {
-              icon: "🍳",
-              style: { background: "#22c55e", color: "#fff" },
-            });
-          } else {
-            toast.error("Wrong! It’s where your puppy cooks love… and omelets 😂", {
-              icon: "🐶",
-              style: { background: "#ef4444", color: "#fff" },
-            });
-          }
-        };
-
-        return (
-          <div className="section-container">
-            <div className="content-card">
-              <div className="icon-wrapper">
-                <Heart className="section-icon celebration-icon" size={64} />
-              </div>
-
-              <h2 className="section-title">Our Special Places</h2>
-
-              <div className="text-content">
-                <p className="description">
-                  Every place becomes special when we're together. From quiet cafes to bustling streets,
-                  anywhere with you feels like home.
-                </p>
-              </div>
-
-              {/* Question 1 */}
-              <div className="puzzle-container">
-                <p className="puzzle-label">Riddle 1:</p>
-                <div className="riddle-box">
-                  <p className="riddle-text">
-                    “Everywhere I go with you becomes my favorite _____”
-                  </p>
-                </div>
-
-                <input
-                  type="text"
-                  value={answer1}
-                  onChange={(e) => setAnswer1(e.target.value)}
-                  className="puzzle-input"
-                  placeholder="Enter the missing word"
-                  disabled={solved1}
-                />
-
-                <div className="button-group">
-                  <button
-                    onClick={handleFirstAnswer}
-                    className="primary-button"
-                    disabled={solved1}
-                  >
-                    {solved1 ? "✅ Correct!" : "Submit Answer"}
-                  </button>
-                  <button
-                    onClick={() => setShowHint1(!showHint1)}
-                    className="hint-button"
-                  >
-                    {showHint1 ? "Hide Hint" : "Need a Hint?"}
-                  </button>
-                </div>
-
-                {showHint1 && (
-                  <p className="hint-text mt-2">
-                    Hint: You literally said it just now 😜
-                  </p>
-                )}
-              </div>
-
-              {/* Question 2 */}
-              {solved1 && (
-                <div className="puzzle-container mt-8 animate-fadeIn">
-                  <p className="puzzle-label">Riddle 2:</p>
-                  <div className="riddle-box">
-                    <p className="riddle-text">
-                      “Where do I feel safest and happiest when I’m with you?”
-                    </p>
-                  </div>
-
-                  <input
-                    type="text"
-                    value={answer2}
-                    onChange={(e) => setAnswer2(e.target.value)}
-                    className="puzzle-input"
-                    placeholder="Enter your answer"
-                    disabled={solved2}
-                  />
-
-                  <div className="button-group">
-                    <button
-                      onClick={handleSecondAnswer}
-                      className="primary-button"
-                      disabled={solved2}
-                    >
-                      {solved2 ? "✅ Correct!" : "Submit Answer"}
-                    </button>
-                    <button
-                      onClick={() => setShowHint2(!showHint2)}
-                      className="hint-button"
-                    >
-                      {showHint2 ? "Hide Hint" : "Need a Hint?"}
-                    </button>
-                  </div>
-
-                  {showHint2 && (
-                    <p className="hint-text mt-2">
-                      Hint: neeku telusuuuuu
-                    </p>
-                  )}
-                </div>
-              )}
-
-              {/* Question 3 */}
-              {solved1 && solved2 && (
-                <div className="puzzle-container mt-8 animate-fadeIn">
-                  <p className="puzzle-label">Riddle 3 (Funny Trick 😋):</p>
-                  <div className="riddle-box">
-                    <p className="riddle-text">
-                      “Where does true love begin? 💕
-                    </p>
-                  </div>
-
-                  <input
-                    type="text"
-                    value={answer3}
-                    onChange={(e) => setAnswer3(e.target.value)}
-                    className="puzzle-input"
-                    placeholder="Enter your answer"
-                    disabled={solved3}
-                  />
-
-                  <div className="button-group">
-                    <button
-                      onClick={handleThirdAnswer}
-                      className="primary-button"
-                      disabled={solved3}
-                    >
-                      {solved3 ? "✅ Correct!" : "Submit Answer"}
-                    </button>
-                    <button
-                      onClick={() => setShowHint3(!showHint3)}
-                      className="hint-button"
-                    >
-                      {showHint3 ? "Hide Hint" : "Need a Hint?"}
-                    </button>
-                  </div>
-
-                  {showHint3 && (
-                    <p className="hint-text mt-2">
-                      Hint: puppy go over there very often
-                    </p>
-                  )}
-                </div>
-              )}
-
-              {/* Continue Button */}
-              {solved1 && solved2 && solved3 && (
-                <div className="flex justify-center mt-10 animate-fadeIn">
-                  <button
-                    onClick={() => {
-                      setUnlockedSections((prev) => {
-                        const newUnlocked = [...prev];
-                        newUnlocked[8] = true; // unlock proposal section
-                        return newUnlocked;
-                      });
-                      toast.success("You’ve unlocked the biggest surprise 💍", {
-                        icon: "💖",
-                        style: { background: "#ec4899", color: "#fff" },
-                      });
-                      setTimeout(() => setCurrentSection(9), 1500);
-                    }}
-                    className="primary-button flex items-center gap-2"
-                  >
-                    <span>Continue Our Story</span>
-                    <ArrowRight size={20} />
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        );
-      })(),
+      content: <SpecialPlacesMemory onSolve={handleComponentSolve} />,
     },
-
 
     // 9 - Proposal
     {
@@ -910,7 +581,7 @@ const TreasureHunt = () => {
 
               <div className="text-content">
                 <p className="description">
-                  You've journeyed through all our memories with me.
+                  You have journeyed through all our memories with me.
                 </p>
                 <p className="quote-text">
                   You are my calm, my strength, and my greatest joy.
@@ -925,15 +596,10 @@ const TreasureHunt = () => {
                   <Heart className="heart-icon" size={60} />
                 </div>
 
-                <p className="proposal-question">
-                  Will you marry me, Likitha?
-                </p>
+                <p className="proposal-question">Will you marry me, Likitha?</p>
 
                 <div className="proposal-buttons">
-                  <button
-                    onClick={handleProposalYes}
-                    className="yes-button"
-                  >
+                  <button onClick={handleProposalYes} className="yes-button">
                     Yes! 💍
                   </button>
 
@@ -942,7 +608,7 @@ const TreasureHunt = () => {
                     onMouseEnter={handleNoDance}
                     className="no-button dancing-no"
                     style={{
-                      position: 'relative',
+                      position: "relative",
                       left: noPosition.x,
                       top: noPosition.y,
                     }}
@@ -950,7 +616,10 @@ const TreasureHunt = () => {
                     No 😏
                   </button>
                 </div>
-                <p className="hint-text small">The answer is already in your heart ❤️ (P.S. Try clicking No if you dare—it's got moves!)</p>
+                <p className="hint-text small">
+                  The answer is already in your heart ❤️ (P.S. Try clicking No
+                  if you dare—it is got moves!)
+                </p>
               </div>
             </div>
           ) : (
@@ -984,34 +653,38 @@ const TreasureHunt = () => {
 
               <div className="celebration-content">
                 <p className="description">
-                  I promise to stand by you through every season of life, in sunshine and in storm.
+                  I promise to stand by you through every season of life, in
+                  sunshine and in storm.
                 </p>
                 <p className="description">
-                  To cherish you more deeply with each passing day, finding new reasons to love you endlessly.
+                  To cherish you more deeply with each passing day, finding new
+                  reasons to love you endlessly.
                 </p>
                 <p className="description">
                   I promise to listen with patience, to speak with kindness
                 </p>
                 <p className="description">
-                  To celebrate your triumphs as my own, and to lift you up when the road feels long.
+                  To celebrate your triumphs as my own, and to lift you up when
+                  the road feels long.
                 </p>
                 <p className="description">
-                  I promise to keep laughter in our home, joy in our hearts, and peace in our souls.
+                  I promise to keep laughter in our home, joy in our hearts, and
+                  peace in our souls.
                 </p>
                 <p className="description">
-                  To share in your dreams and build a life that reflects both our hopes and faith.
+                  To share in your dreams and build a life that reflects both
+                  our hopes and faith.
                 </p>
                 <p className="description">
-                  And above all, I promise to love you faithfully — today, tomorrow, and forever. nana
+                  And above all, I promise to love you faithfully — today,
+                  tomorrow, and forever. nana
                 </p>
               </div>
-
             </div>
           )}
         </div>
       ),
     },
-
 
     // 10 - Future Together
     {
@@ -1031,7 +704,7 @@ const TreasureHunt = () => {
                 This is just the beginning of our forever.
               </p>
               <p className="description">
-                Together, we'll create countless more memories.
+                Together, we will create countless more memories.
               </p>
             </div>
 
@@ -1096,7 +769,7 @@ const TreasureHunt = () => {
                 setCurrentSection(11);
               }}
               className="primary-button"
-              style={{ marginTop: '2rem' }}
+              style={{ marginTop: "2rem" }}
             >
               <span>Continue Our Story</span>
               <ArrowRight size={20} />
@@ -1120,17 +793,18 @@ const TreasureHunt = () => {
             <h2 className="celebration-title">Thank You</h2>
 
             <div className="text-content">
-              <p className="quote-text">
-                Thank you for being you.
+              <p className="quote-text">Thank you for being you.</p>
+              <p className="description">
+                Thank you for your patience, your kindness, and your love that
+                never gives up on me.
               </p>
               <p className="description">
-                Thank you for your patience, your kindness, and your love that never gives up on me.
+                Thank you for standing by my side through every laugh and every
+                tear.
               </p>
               <p className="description">
-                Thank you for standing by my side through every laugh and every tear.
-              </p>
-              <p className="description">
-                Thank you for the little things — your smile, your hugs, and the peace you bring to my heart.
+                Thank you for the little things — your smile, your hugs, and the
+                peace you bring to my heart.
               </p>
               <p className="description">
                 Thank you for choosing me, not just once, but every single day.
@@ -1142,7 +816,6 @@ const TreasureHunt = () => {
                 I can’t wait to grow, dream, and share every tomorrow with you.
               </p>
             </div>
-
 
             <div className="signature-box">
               <p className="signature-text">Forever yours,</p>
@@ -1159,7 +832,7 @@ const TreasureHunt = () => {
                 setCurrentSection(12);
               }}
               className="primary-button"
-              style={{ marginTop: '2rem' }}
+              style={{ marginTop: "2rem" }}
             >
               <span>Continue Our Story</span>
               <ArrowRight size={20} />
@@ -1209,7 +882,7 @@ const TreasureHunt = () => {
                 setCurrentSection(13);
               }}
               className="primary-button"
-              style={{ marginTop: '2rem' }}
+              style={{ marginTop: "2rem" }}
             >
               <span>Continue Our Story</span>
               <ArrowRight size={20} />
@@ -1234,19 +907,23 @@ const TreasureHunt = () => {
 
             <div className="secret-box">
               <p className="description">
-                You found this secret by exploring every little corner — just like how you’ve found every piece of my heart.
+                You found this secret by exploring every little corner — just
+                like how you have found every piece of my heart.
               </p>
               <p className="quote-text">
-                "Every moment with you is a treasure I’ll keep close to my heart forever."
+                Every moment with you is a treasure I will keep close to my
+                heart forever.
               </p>
               <p className="description">
-                Like this hidden message, our love is full of quiet surprises, soft laughter, and memories waiting to be discovered.
+                Like this hidden message, our love is full of quiet surprises,
+                soft laughter, and memories waiting to be discovered.
               </p>
             </div>
 
-
             <div className="secret-message">
-              <p className="secret-text">PS: I love you more than words can ever say 💕</p>
+              <p className="secret-text">
+                I love you more than words can ever say 💕
+              </p>
             </div>
             <button
               onClick={() => {
@@ -1258,7 +935,7 @@ const TreasureHunt = () => {
                 setCurrentSection(14);
               }}
               className="primary-button"
-              style={{ marginTop: '2rem' }}
+              style={{ marginTop: "2rem" }}
             >
               <span>Continue Our Story</span>
               <ArrowRight size={20} />
@@ -1282,9 +959,7 @@ const TreasureHunt = () => {
             <h2 className="section-title">Our Journey</h2>
 
             <div className="text-content">
-              <p className="description">
-                Relive our story anytime you want.
-              </p>
+              <p className="description">Relive our story anytime you want.</p>
             </div>
 
             <div className="control-buttons">
@@ -1327,7 +1002,8 @@ const TreasureHunt = () => {
 
   return (
     <div className="treasure-hunt">
-      <Toaster position="top-center" reverseOrder={false} /> {/* Toast container */}
+      <Toaster position="top-center" reverseOrder={false} />{" "}
+      {/* Toast container */}
       <style jsx global>{`
         /* CSS Reset & Base Styles */
         * {
@@ -1337,27 +1013,32 @@ const TreasureHunt = () => {
         }
 
         body {
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+            "Helvetica Neue", Arial, sans-serif;
           overflow-x: hidden;
         }
 
         /* Wavy Background Pattern */
         .treasure-hunt {
           min-height: 100vh;
-          background: linear-gradient(180deg, #000000 0%, #0a1628 50%, #000814 100%);
+          background: linear-gradient(
+            180deg,
+            #000000 0%,
+            #0a1628 50%,
+            #000814 100%
+          );
           position: relative;
           color: white;
         }
 
         .treasure-hunt::before {
-          content: '';
+          content: "";
           position: absolute;
           top: 0;
           left: 0;
           width: 100%;
           height: 100%;
-          background:
-            repeating-linear-gradient(
+          background: repeating-linear-gradient(
               90deg,
               transparent,
               transparent 100px,
@@ -1376,8 +1057,12 @@ const TreasureHunt = () => {
         }
 
         @keyframes wave-drift {
-          0% { transform: translateY(0); }
-          100% { transform: translateY(-100px); }
+          0% {
+            transform: translateY(0);
+          }
+          100% {
+            transform: translateY(-100px);
+          }
         }
 
         /* Section Container */
@@ -1440,7 +1125,8 @@ const TreasureHunt = () => {
         }
 
         @keyframes sparkle {
-          0%, 100% {
+          0%,
+          100% {
             transform: scale(1) rotate(0deg);
             opacity: 1;
           }
@@ -1457,8 +1143,13 @@ const TreasureHunt = () => {
         }
 
         @keyframes gentle-pulse {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.05); }
+          0%,
+          100% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(1.05);
+          }
         }
 
         /* Typography */
@@ -1603,9 +1294,16 @@ const TreasureHunt = () => {
         }
 
         @keyframes shake {
-          0%, 100% { transform: translateX(0); }
-          25% { transform: translateX(-5px); }
-          75% { transform: translateX(5px); }
+          0%,
+          100% {
+            transform: translateX(0);
+          }
+          25% {
+            transform: translateX(-5px);
+          }
+          75% {
+            transform: translateX(5px);
+          }
         }
 
         /* Memory Grid */
@@ -1859,7 +1557,8 @@ const TreasureHunt = () => {
         }
 
         @keyframes glow {
-          0%, 100% {
+          0%,
+          100% {
             text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
           }
           50% {
@@ -2157,12 +1856,8 @@ const TreasureHunt = () => {
           }
         }
       `}</style>
-
       {/* Section Rendering */}
-      <div className="sections-wrapper">
-        {sections[currentSection].content}
-      </div>
-
+      <div className="sections-wrapper">{sections[currentSection].content}</div>
       {/* Progress Indicator */}
       <div className="progress-indicator">
         <MapPin className="progress-icon" size={20} />
@@ -2172,11 +1867,12 @@ const TreasureHunt = () => {
         <div className="progress-bar-container">
           <div
             className="progress-bar"
-            style={{ width: `${((currentSection + 1) / sections.length) * 100}%` }}
+            style={{
+              width: `${((currentSection + 1) / sections.length) * 100}%`,
+            }}
           />
         </div>
       </div>
-
       {/* Navigation Buttons */}
       {currentSection > 0 && (
         <button
@@ -2187,16 +1883,16 @@ const TreasureHunt = () => {
           <ArrowLeft size={24} />
         </button>
       )}
-
-      {currentSection < sections.length - 1 && unlockedSections[currentSection + 1] && (
-        <button
-          onClick={() => setCurrentSection(currentSection + 1)}
-          className="nav-button right"
-          aria-label="Next section"
-        >
-          <ArrowRight size={24} />
-        </button>
-      )}
+      {currentSection < sections.length - 1 &&
+        unlockedSections[currentSection + 1] && (
+          <button
+            onClick={() => setCurrentSection(currentSection + 1)}
+            className="nav-button right"
+            aria-label="Next section"
+          >
+            <ArrowRight size={24} />
+          </button>
+        )}
     </div>
   );
 };

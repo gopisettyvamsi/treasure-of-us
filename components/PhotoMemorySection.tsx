@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Camera } from 'lucide-react';
+import Image from 'next/image';
 
 interface PhotoMemorySectionProps {
   handleSolvePuzzle: (sectionId: string, correctAnswer: string) => void;
@@ -132,12 +133,11 @@ const PhotoMemorySection: React.FC<PhotoMemorySectionProps> = ({
                   backfaceVisibility: 'hidden',
                   transform: 'rotateY(180deg)',
                 }}>
-                  <img
+                  <Image
                     src={photo.src}
                     alt="Memory"
+                    fill
                     style={{
-                      width: '100%',
-                      height: '100%',
                       objectFit: 'cover',
                       border: matched.includes(photo.pair) ? '3px solid #f472b6' : 'none',
                     }}
